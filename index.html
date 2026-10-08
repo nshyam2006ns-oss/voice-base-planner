@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoicePlan AI - Smart Daily Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand-container">
+                <div class="brand-logo">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <line x1="12" y1="19" x2="12" y2="22"></line>
+                        <line x1="8" y1="22" x2="16" y2="22"></line>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h2>VoicePlan <span>AI</span></h2>
+                    <p class="tagline">Plan your day with voice</p>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" data-view="dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="2"></rect><rect x="14" y="3" width="7" height="7" rx="2"></rect><rect x="14" y="14" width="7" height="7" rx="2"></rect><rect x="3" y="14" width="7" height="7" rx="2"></rect></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-view="voice-input">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                    <span>Voice Input</span>
+                </button>
+                <button class="nav-item" data-view="today-tasks">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <span>Today's Tasks</span>
+                    <span class="badge" id="nav-today-count">0</span>
+                </button>
+                <button class="nav-item" data-view="timeline">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Timeline</span>
+                </button>
+                <button class="nav-item" data-view="calendar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <span>Calendar</span>
+                </button>
+                <button class="nav-item" data-view="activity">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    <span>Activity Log</span>
+                </button>
+                <button class="nav-item" data-view="settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <span>Settings</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-demo" id="btn-try-demo">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    <span>Try Demo Data</span>
+                </button>
+                <div class="theme-toggle-wrapper">
+                    <span>Theme</span>
+                    <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark/light theme">
+                        <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                        <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <main class="main-content">
+            <!-- Top Header Bar -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </button>
+                    <div class="date-time-display">
+                        <h1 id="header-greeting">Welcome Dashboard</h1>
+                        <p id="current-date-time"><span id="header-date">Wednesday, Oct 7, 2026</span> • <span id="header-time">02:18 PM</span></p>
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn btn-outline" id="btn-open-manual-modal">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>Add Task Manually</span>
+                    </button>
+                    <button class="btn btn-primary btn-pulse-effect" id="btn-quick-voice">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line></svg>
+                        <span>Voice Add Task</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Notice Banner for Web Speech API -->
+            <div class="api-notice-banner" id="api-notice">
+                <div class="notice-icon">ℹ️</div>
+                <div class="notice-text">
+                    <strong>Browser Speech API Note:</strong> Voice input uses the browser's Web Speech API. Microphone permission is required, and speech recognition availability may vary by browser. Manual task input and demo features remain 100% available at all times.
+                </div>
+                <button class="notice-close" onclick="document.getElementById('api-notice').style.display='none'">&times;</button>
+            </div>
+
+            <!-- View Container -->
+            <div class="views-wrapper">
+                <!-- VIEW 1: DASHBOARD & MAIN WORKSPACE -->
+                <div class="view-panel active" id="view-dashboard">
+                    <!-- Quick Summary Metrics Bar -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon total-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Tasks Today</span>
+                                <h3 class="stat-value" id="stat-total">0</h3>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon completed-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Completed Tasks</span>
+                                <h3 class="stat-value" id="stat-completed">0</h3>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon pending-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Pending Tasks</span>
+                                <h3 class="stat-value" id="stat-pending">0</h3>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon high-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">High Priority</span>
+                                <h3 class="stat-value" id="stat-high-priority">0</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3-Column Main Dashboard Layout -->
+                    <div class="dashboard-grid">
+                        <!-- LEFT COLUMN: Voice Input & Extracted Preview -->
+                        <div class="dashboard-col left-col">
+                            <!-- Voice Input Card -->
+                            <div class="card voice-card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line></svg>
+                                        <h3>Voice Task Input</h3>
+                                    </div>
+                                    <span class="mic-status-badge idle" id="mic-status-badge">Idle</span>
+                                </div>
+
+                                <div class="mic-section">
+                                    <p class="mic-prompt" id="mic-prompt">What do you need to do?</p>
+                                    
+                                    <!-- Microphone Animated Visualizer Container -->
+                                    <div class="mic-button-wrapper">
+                                        <div class="mic-pulse-ring"></div>
+                                        <button class="mic-main-btn" id="btn-toggle-listen" aria-label="Toggle speech recognition listening">
+                                            <svg class="mic-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                                <line x1="12" y1="19" x2="12" y2="23"></line>
+                                                <line x1="8" y1="23" x2="16" y2="23"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <!-- Waveform Canvas -->
+                                    <div class="waveform-container">
+                                        <canvas id="waveform-canvas" width="300" height="40"></canvas>
+                                    </div>
+
+                                    <div class="voice-controls">
+                                        <button class="btn btn-sm btn-primary" id="btn-start-speech">
+                                            <span>🎤 Start Listening</span>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" id="btn-stop-speech" disabled>
+                                            <span>⏹ Stop</span>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline" id="btn-clear-speech">
+                                            <span>🔄 Clear</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Recognized Speech Live Text Box -->
+                                <div class="recognized-text-box">
+                                    <div class="box-label">
+                                        <span>Recognized Text</span>
+                                        <span class="live-indicator hidden" id="live-indicator">● Listening...</span>
+                                    </div>
+                                    <div class="transcript-display" id="transcript-display">
+                                        <span class="placeholder-text">Speak naturally into your microphone (e.g. "Tomorrow morning at 9 I need to study Computer Networks")...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Smart Task Extraction Card -->
+                            <div class="card extraction-card" id="extraction-card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                                        <h3>Smart Task Extraction</h3>
+                                    </div>
+                                    <span class="badge badge-ai">NLP Analyzer</span>
+                                </div>
+
+                                <div class="extraction-body">
+                                    <form id="extraction-form">
+                                        <div class="form-group">
+                                            <label for="extract-name">Task Name</label>
+                                            <input type="text" id="extract-name" placeholder="Extracted task title..." required>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="extract-date">Date</label>
+                                                <input type="date" id="extract-date" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="extract-time">Time</label>
+                                                <input type="time" id="extract-time" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="extract-category">Category</label>
+                                                <select id="extract-category">
+                                                    <option value="Study">📚 Study</option>
+                                                    <option value="Project">💻 Project</option>
+                                                    <option value="College">🏫 College</option>
+                                                    <option value="Work">💼 Work</option>
+                                                    <option value="Personal">🏠 Personal</option>
+                                                    <option value="Health">🏃 Health</option>
+                                                    <option value="Other">🎯 Other</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="extract-priority">Priority</label>
+                                                <select id="extract-priority">
+                                                    <option value="High">🔴 High Priority</option>
+                                                    <option value="Medium" selected>🟡 Medium Priority</option>
+                                                    <option value="Low">🟢 Low Priority</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="extraction-actions">
+                                            <button type="button" class="btn btn-success" id="btn-save-extracted">
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                                <span>Confirm & Schedule Task</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CENTER COLUMN: Today's Schedule Timeline & Task List -->
+                        <div class="dashboard-col center-col">
+                            <!-- Search & Filter Controls -->
+                            <div class="card filter-card">
+                                <div class="search-box">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    <input type="text" id="task-search-input" placeholder="Search tasks by name or keyword...">
+                                </div>
+
+                                <div class="filter-chips" id="filter-chips">
+                                    <button class="chip active" data-filter="all">All</button>
+                                    <button class="chip" data-filter="pending">Pending</button>
+                                    <button class="chip" data-filter="completed">Completed</button>
+                                    <button class="chip" data-filter="High">🔴 High Priority</button>
+                                    <button class="chip" data-filter="Study">📚 Study</button>
+                                    <button class="chip" data-filter="Project">💻 Project</button>
+                                    <button class="chip" data-filter="College">🏫 College</button>
+                                    <button class="chip" data-filter="Personal">🏠 Personal</button>
+                                </div>
+                            </div>
+
+                            <!-- Today's Schedule Timeline Card -->
+                            <div class="card timeline-card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                        <h3>Daily Timeline</h3>
+                                    </div>
+                                    <span class="timeline-date-label" id="timeline-date-label">Today</span>
+                                </div>
+
+                                <div class="timeline-container" id="timeline-container">
+                                    <!-- Dynamic Timeline Items Rendered Here -->
+                                </div>
+                            </div>
+
+                            <!-- Smart Task List Card -->
+                            <div class="card task-list-card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                                        <h3>Task List</h3>
+                                    </div>
+                                    <span class="task-count-badge" id="task-list-count">0 tasks</span>
+                                </div>
+
+                                <div class="task-list" id="task-list-container">
+                                    <!-- Dynamic Task Cards Rendered Here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT COLUMN: Progress, Countdown, Suggestions & Voice Command Log -->
+                        <div class="dashboard-col right-col">
+                            <!-- Today's Progress Card -->
+                            <div class="card progress-card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                                        <h3>Today's Progress</h3>
+                                    </div>
+                                </div>
+
+                                <div class="progress-body">
+                                    <div class="circular-progress-wrapper">
+                                        <svg class="progress-ring" width="130" height="130">
+                                            <circle class="progress-ring-bg" stroke="var(--border-color)" stroke-width="10" fill="transparent" r="52" cx="65" cy="65"/>
+                                            <circle class="progress-ring-circle" id="progress-circle" stroke="var(--primary-color)" stroke-width="10" stroke-linecap="round" fill="transparent" r="52" cx="65" cy="65"/>
+                                        </svg>
+                                        <div class="progress-text-center">
+                                            <span class="percent-val" id="progress-percent">0%</span>
+                                            <span class="percent-label">Completed</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress-mini-stats">
+                                        <div class="mini-stat">
+                                            <span class="dot completed-dot"></span>
+                                            <span class="lbl">Completed:</span>
+                                            <strong id="prog-completed">0</strong>
+                                        </div>
+                                        <div class="mini-stat">
+                                            <span class="dot pending-dot"></span>
+                                            <span class="lbl">Pending:</span>
+                                            <strong id="prog-pending">0</strong>
+                                        </div>
+                                        <div class="mini-stat">
+                                            <span class="dot total-dot"></span>
+                                            <span class="lbl">Total:</span>
+                                            <strong id="prog-total">0</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Upcoming Task & Live Countdown Card -->
+                            <div class="card upcoming-card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                        <h3>Next Task</h3>
+                                    </div>
+                                    <span class="badge badge-accent">Countdown</span>
+                                </div>
+
+                                <div class="next-task-body" id="next-task-container">
+                                    <div class="next-task-info">
+                                        <h4 id="next-task-title">No upcoming tasks</h4>
+                                        <p id="next-task-time">Schedule a task to see countdown</p>
+                                    </div>
+                                    <div class="countdown-timer-box">
+                                        <span class="timer-display" id="countdown-timer">--h --m --s</span>
+                                        <span class="timer-sub">remaining</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Planner Suggestions Box -->
+                            <div class="card suggestions-card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                                        <h3>Planner Suggestions</h3>
+                                    </div>
+                                </div>
+
+                                <div class="suggestions-list" id="suggestions-list">
+                                    <!-- Dynamic AI Suggestions Rendered Here -->
+                                </div>
+                            </div>
+
+                            <!-- Voice Command Log Card -->
+                            <div class="card command-log-card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                        <h3>Voice Command Log</h3>
+                                    </div>
+                                </div>
+
+                                <div class="command-log-body" id="command-log-container">
+                                    <div class="empty-log">No voice commands detected yet. Speak commands like <em>"Mark Python as completed"</em> or <em>"Show pending tasks"</em>.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: DEDICATED CALENDAR VIEW -->
+                <div class="view-panel" id="view-calendar">
+                    <div class="card calendar-view-card">
+                        <div class="calendar-header-bar">
+                            <div class="cal-controls">
+                                <button class="btn btn-sm btn-outline" id="cal-prev-btn">&lt; Prev</button>
+                                <h2 id="cal-month-year">October 2026</h2>
+                                <button class="btn btn-sm btn-outline" id="cal-next-btn">Next &gt;</button>
+                            </div>
+                            <div class="cal-view-tabs">
+                                <button class="btn btn-sm cal-tab active" data-cal-range="today">Today</button>
+                                <button class="btn btn-sm cal-tab" data-cal-range="tomorrow">Tomorrow</button>
+                                <button class="btn btn-sm cal-tab" data-cal-range="week">This Week</button>
+                                <button class="btn btn-sm cal-tab" data-cal-range="month">Full Month</button>
+                            </div>
+                        </div>
+
+                        <div class="calendar-grid-container">
+                            <div class="cal-weekdays">
+                                <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                            </div>
+                            <div class="cal-days-grid" id="cal-days-grid">
+                                <!-- Calendar days generated via JS -->
+                            </div>
+                        </div>
+
+                        <div class="selected-day-tasks-section">
+                            <h3 id="selected-day-title">Tasks for Wednesday, Oct 7, 2026</h3>
+                            <div class="task-list" id="selected-day-tasks-container">
+                                <!-- Tasks for selected day -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 3: DEDICATED ACTIVITY LOG VIEW -->
+                <div class="view-panel" id="view-activity">
+                    <div class="card activity-view-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                <h2>Recent Activity History</h2>
+                            </div>
+                            <button class="btn btn-sm btn-outline" id="btn-clear-activity">Clear History</button>
+                        </div>
+                        <div class="activity-timeline" id="activity-timeline">
+                            <!-- Activity items rendered here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 4: SETTINGS VIEW -->
+                <div class="view-panel" id="view-settings">
+                    <div class="card settings-card">
+                        <h2>Application Settings</h2>
+                        <div class="settings-group">
+                            <h3>Voice Recognition Configuration</h3>
+                            <div class="setting-item">
+                                <label for="setting-lang">Speech Language</label>
+                                <select id="setting-lang">
+                                    <option value="en-US">English (US)</option>
+                                    <option value="en-IN" selected>English (India)</option>
+                                    <option value="en-GB">English (UK)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h3>Data Management</h3>
+                            <div class="setting-item">
+                                <div>
+                                    <h4>Clear All Local Data</h4>
+                                    <p>Reset tasks, activity logs, and preferences from LocalStorage.</p>
+                                </div>
+                                <button class="btn btn-danger" id="btn-reset-data">Reset Everything</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <h3>Supported Voice Commands Cheat-Sheet</h3>
+                            <ul class="voice-help-list">
+                                <li><strong>"Add task [description] at [time]"</strong> — Create a new task (e.g., <em>"Add task study Python at 7 PM"</em>)</li>
+                                <li><strong>"Mark [task name] task as completed"</strong> — Mark task complete (e.g., <em>"Mark Python task as completed"</em>)</li>
+                                <li><strong>"Show today's tasks"</strong> — Display today's schedule</li>
+                                <li><strong>"Show pending tasks"</strong> — Filter pending tasks</li>
+                                <li><strong>"Delete my [task name] task"</strong> — Delete specific task (e.g., <em>"Delete my project task"</em>)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Manual Add / Edit Task Modal -->
+    <div class="modal-overlay" id="task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Add New Task</h3>
+                <button class="modal-close" id="btn-close-modal">&times;</button>
+            </div>
+            <form id="manual-task-form">
+                <input type="hidden" id="task-edit-id" value="">
+                <div class="form-group">
+                    <label for="modal-task-name">Task Name</label>
+                    <input type="text" id="modal-task-name" placeholder="e.g., Python class" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modal-task-date">Date</label>
+                        <input type="date" id="modal-task-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-task-time">Time</label>
+                        <input type="time" id="modal-task-time" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modal-task-category">Category</label>
+                        <select id="modal-task-category">
+                            <option value="Study">📚 Study</option>
+                            <option value="Project">💻 Project</option>
+                            <option value="College">🏫 College</option>
+                            <option value="Work">💼 Work</option>
+                            <option value="Personal">🏠 Personal</option>
+                            <option value="Health">🏃 Health</option>
+                            <option value="Other">🎯 Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-task-priority">Priority</label>
+                        <select id="modal-task-priority">
+                            <option value="High">🔴 High Priority</option>
+                            <option value="Medium" selected>🟡 Medium Priority</option>
+                            <option value="Low">🟢 Low Priority</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="btn-cancel-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-modal">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
